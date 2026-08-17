@@ -1,0 +1,33 @@
+name: Report Attendance Absentees
+
+on:
+  schedule:
+    - cron: "0 0 * * 2-6"
+  workflow_dispatch:
+    inputs:
+      target_date_kst:
+        description: "KST date to check (YYYY-MM-DD). Defaults to yesterday."
+        required: false
+        type: string
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      TARGET_DATE_KST: ${{ inputs.target_date_kst }}
+      REPOSITORY: ${{ github.repository }}
+      WORKFLOW_FILE_NAME: md-push-notify.yml
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Report attendance absentees
+        run: python3 scripts/report_absentees.py

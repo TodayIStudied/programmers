@@ -8,7 +8,7 @@ from urllib.error import HTTPError, URLError
 
 
 API_ROOT = "https://api.github.com"
-KST = timezone(timedelta(hours=9))
+KST = timezone(timedelta(hours=8))
 MAIN_BRANCH = "main"
 
 

@@ -45,12 +45,19 @@ def added_markdown_files(before_sha, after_sha):
         return []
 
     if is_zero_sha(before_sha):
-        output = run_git(["ls-tree", "-r", "--name-only", after_sha])
+        output = run_git([
+        "-c",
+        "core.quotePath=false",
+        "ls-tree",
+        "-r",
+        "--name-only",
+        after_sha,
+    ])
         return sorted(
             path for path in output.splitlines() if is_markdown_submission(path)
         )
 
-    output = run_git(["diff", "--name-status", "--diff-filter=A", before_sha, after_sha])
+    output = run_git(["-c","core.quotePath=false","diff", "--name-status", "--diff-filter=A", before_sha, after_sha])
     added = []
     for line in output.splitlines():
         parts = line.split("\t", 1)
@@ -124,6 +131,7 @@ def build_message(path, preview, env):
 
 def main():
     env = os.environ
+    # push 전후의 브랜치 상태 가리키는 commit SHA 
     before_sha = env.get("BEFORE_SHA", "")
     after_sha = env.get("AFTER_SHA", "")
 

@@ -9,3 +9,13 @@
 ### [규칙]
 1. 평일 하루 한 문제 풀이하기 (공휴일일 경우 평일로 취급하지 않음)
 2. 하루 스킵하면 벌금 1000원
+
+
+### [초기 환경설정]
+```
+git clone https://github.com/TodayIStudied/programmers.git
+cd programmers
+git switch main
+git pull origin main
+git checkout -b <github-id>
+```
